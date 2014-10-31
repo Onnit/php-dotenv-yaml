@@ -2,7 +2,7 @@
 namespace jimbocoder;
 
 use Symfony\Component\Yaml\Parser;
-use Doctrine\Common\Cache\FilesystemCache;
+use Doctrine\Common\Cache\ApcCache;
 
 class DotenvYaml {
 
@@ -71,7 +71,7 @@ class DotenvYaml {
     protected static function _load($envFile, $conf_d)
     {
         // Try to get a fully parsed config tree from cache
-        $cache = new FilesystemCache("$conf_d/.cache");
+        $cache = new ApcCache();
         $cacheKey = sprintf("%s:%s+%s", __CLASS__, $envFile, $conf_d);
         $stampedeLockKey = "$cacheKey:stampedeLock";
         if ( $parsedTree = $cache->fetch($cacheKey) ) {
